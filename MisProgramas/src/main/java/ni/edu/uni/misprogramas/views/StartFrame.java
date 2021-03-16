@@ -6,10 +6,12 @@
 package ni.edu.uni.misprogramas.views;
 
 import java.awt.BorderLayout;
+import ni.edu.uni.misprogramas.controllers.PnlTemperaturaC;
 import ni.edu.uni.misprogramas.controllers.pnlCalculadoraController;
 import ni.edu.uni.misprogramas.controllers.pnlMonedaController;
 import ni.edu.uni.misprogramas.controllers.pnlTemperaturaController;
 import ni.edu.uni.misprogramas.views.panels.pnlCalculadora;
+import ni.edu.uni.misprogramas.views.panels.pnlConversionTemplate;
 import ni.edu.uni.misprogramas.views.panels.pnlMoneda;
 import ni.edu.uni.misprogramas.views.panels.pnlTemperatura;
 
@@ -22,9 +24,11 @@ public class StartFrame extends javax.swing.JFrame {
     private pnlCalculadora pnlCalc;
     private pnlTemperatura pnlTemp;
     private pnlMoneda pnlMone;
+    private pnlConversionTemplate pnlCTTemperature;
     private pnlCalculadoraController pnlCalcController;
     private pnlTemperaturaController pnlTempController;
     private pnlMonedaController pnlMoneController;
+    private PnlTemperaturaC pnlTController;
     /**
      * Creates new form StartFrame
      */
@@ -49,7 +53,6 @@ public class StartFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("My app");
-        setName("frame1"); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 500));
 
         pnlLeftButtons.setBackground(new java.awt.Color(153, 153, 153));
@@ -108,14 +111,14 @@ public class StartFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCalcActionPerformed
 
     private void btnTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTempActionPerformed
-        if(pnlTemp == null){
-            pnlTemp = new pnlTemperatura();
-            pnlTempController = new pnlTemperaturaController(pnlTemp);
+        if(pnlCTTemperature == null){
+            pnlCTTemperature = new pnlConversionTemplate();
+            pnlTController = new PnlTemperaturaC(pnlCTTemperature);
         }
         if(pnlContent.getComponentCount() > 0){
             pnlContent.remove(0);
         }
-        pnlContent.add(pnlTemp, BorderLayout.CENTER);
+        pnlContent.add(pnlCTTemperature, BorderLayout.CENTER);
         this.validate();
     }//GEN-LAST:event_btnTempActionPerformed
 
