@@ -6,6 +6,7 @@
 package ni.edu.uni.misprogramas.views;
 
 import java.awt.BorderLayout;
+import javax.swing.JComponent;
 import ni.edu.uni.misprogramas.controllers.PnlTemperaturaC;
 import ni.edu.uni.misprogramas.controllers.pnlCalculadoraController;
 import ni.edu.uni.misprogramas.controllers.pnlMonedaController;
@@ -97,29 +98,26 @@ public class StartFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    private void addComponent(JComponent component){
+        pnlContent.removeAll();
+        pnlContent.add(component, BorderLayout.CENTER);
+        pnlContent.repaint();
+        this.validate();
+    }
     private void btnCalcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcActionPerformed
         if(pnlCalc == null){
             pnlCalc = new pnlCalculadora();
             pnlCalcController = new pnlCalculadoraController(pnlCalc);
         }
-        if(pnlContent.getComponentCount() > 0){
-            pnlContent.remove(0);
-        }
-        pnlContent.add(pnlCalc, BorderLayout.CENTER);
-        this.validate();
+        addComponent(pnlCalc);
     }//GEN-LAST:event_btnCalcActionPerformed
-
+    
     private void btnTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTempActionPerformed
         if(pnlCTTemperature == null){
             pnlCTTemperature = new pnlConversionTemplate();
             pnlTController = new PnlTemperaturaC(pnlCTTemperature);
         }
-        if(pnlContent.getComponentCount() > 0){
-            pnlContent.remove(0);
-        }
-        pnlContent.add(pnlCTTemperature, BorderLayout.CENTER);
-        this.validate();
+        addComponent(pnlCTTemperature);
     }//GEN-LAST:event_btnTempActionPerformed
 
     private void btnMoneyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoneyActionPerformed
@@ -127,11 +125,7 @@ public class StartFrame extends javax.swing.JFrame {
             pnlMone = new pnlMoneda();
             pnlMoneController = new pnlMonedaController(pnlMone);
         }
-        if(pnlContent.getComponentCount() > 0){
-            pnlContent.remove(0);
-        }
-        pnlContent.add(pnlMone, BorderLayout.CENTER);
-        this.validate();
+        addComponent(pnlCTTemperature);
     }//GEN-LAST:event_btnMoneyActionPerformed
 
     
