@@ -125,12 +125,24 @@ public class pnlMoneda extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel2.add(jLabel3, gridBagConstraints);
+
+        txtCordoba.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCordobaKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 1, 2, 2);
         jPanel2.add(txtCordoba, gridBagConstraints);
+
+        txtDolar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDolarKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 3;
@@ -164,6 +176,24 @@ public class pnlMoneda extends javax.swing.JPanel {
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtCordobaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCordobaKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())&&evt.getKeyChar()!= '.') {
+            evt.consume();
+        }
+        if (evt.getKeyChar()=='.'&&txtCordoba.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCordobaKeyTyped
+
+    private void txtDolarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDolarKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())&&evt.getKeyChar()!= '.') {
+            evt.consume();
+        }
+        if (evt.getKeyChar()=='.'&&txtDolar.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtDolarKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

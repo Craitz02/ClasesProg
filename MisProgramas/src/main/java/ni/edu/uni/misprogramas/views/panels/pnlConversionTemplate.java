@@ -152,6 +152,11 @@ public class pnlConversionTemplate extends javax.swing.JPanel {
                 txtValueActionPerformed(evt);
             }
         });
+        txtValue.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtValueKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -175,6 +180,15 @@ public class pnlConversionTemplate extends javax.swing.JPanel {
     private void txtValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValueActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtValueActionPerformed
+
+    private void txtValueKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValueKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())&&evt.getKeyChar()!= '.') {
+            evt.consume();
+        }
+        if (evt.getKeyChar()=='.'&&txtValue.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtValueKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

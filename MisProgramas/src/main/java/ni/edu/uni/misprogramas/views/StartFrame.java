@@ -125,7 +125,7 @@ public class StartFrame extends javax.swing.JFrame {
             pnlMone = new pnlMoneda();
             pnlMoneController = new pnlMonedaController(pnlMone);
         }
-        addComponent(pnlCTTemperature);
+        addComponent(pnlMone);
     }//GEN-LAST:event_btnMoneyActionPerformed
 
     
