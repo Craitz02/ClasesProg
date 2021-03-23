@@ -5,7 +5,20 @@
  */
 package ni.edu.uni.misprogramas.views;
 
+import io.github.dheid.fontchooser.FontChooser;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
 import ni.edu.uni.misprogramas.views.panels.PnlTextEditor;
 
 /**
@@ -13,12 +26,12 @@ import ni.edu.uni.misprogramas.views.panels.PnlTextEditor;
  * @author Sistemas-09
  */
 public class FrmEditor extends javax.swing.JFrame {
-    private int countTab;
+    
     /**
      * Creates new form FrmEditor
      */
     public FrmEditor() {
-        countTab = 1;
+        
         initComponents();
     }
 
@@ -37,7 +50,11 @@ public class FrmEditor extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mniNew = new javax.swing.JMenuItem();
+        mniOpen = new javax.swing.JMenuItem();
+        mniSave = new javax.swing.JMenuItem();
+        mniExit = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        mniFontFormat = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Editor de Texto");
@@ -61,7 +78,6 @@ public class FrmEditor extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         mniNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        mniNew.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sistemas-09\\Downloads\\Webp.net-resizeimage.png")); // NOI18N
         mniNew.setText("New");
         mniNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,9 +86,40 @@ public class FrmEditor extends javax.swing.JFrame {
         });
         jMenu1.add(mniNew);
 
+        mniOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        mniOpen.setText("Open");
+        mniOpen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniOpenActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mniOpen);
+
+        mniSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        mniSave.setText("Save");
+        mniSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniSaveActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mniSave);
+
+        mniExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        mniExit.setText("Exit");
+        jMenu1.add(mniExit);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        mniFontFormat.setText("Font Format");
+        mniFontFormat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniFontFormatActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mniFontFormat);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -82,21 +129,91 @@ public class FrmEditor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mniNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNewActionPerformed
-        PnlTextEditor pnlTextEditor = new PnlTextEditor();
-        tbpContent.addTab("Editor" + countTab++, pnlTextEditor);
+        PnlTextEditor newtab = new PnlTextEditor();
+        String name = JOptionPane.showInputDialog(rootPane, "Enter name for file: ", "New File", JOptionPane.INFORMATION_MESSAGE);
+        tbpContent.addTab(name, newtab);
     }//GEN-LAST:event_mniNewActionPerformed
 
     private void btnCloseTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseTabActionPerformed
-        if(tbpContent.getComponentCount() <= 0){
+        if (tbpContent.getComponentCount() <= 0) {
             return;
         }
         int option = JOptionPane.showInternalConfirmDialog(null, "Are you sure to delete this tap?", "Confirmation Dialog", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        if(option == 1){
+        if (option == 1) {
             return;
         }
-        int index = tbpContent.getSelectedIndex();        
+        int index = tbpContent.getSelectedIndex();
         tbpContent.remove(index);
     }//GEN-LAST:event_btnCloseTabActionPerformed
+
+    private void mniOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniOpenActionPerformed
+        JFileChooser fs = new JFileChooser();
+        PnlTextEditor open = (PnlTextEditor) tbpContent.getSelectedComponent();
+        fs.setDialogTitle("Open a File");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+        fs.setFileFilter(filter);
+        int selec = fs.showOpenDialog(null);
+        
+        
+        if (selec == JFileChooser.APPROVE_OPTION) {
+            try {
+                String FileName = fs.getSelectedFile().getName();
+                tbpContent.addTab(FileName, open);
+                File fi = fs.getSelectedFile();
+                BufferedReader br = new BufferedReader(new FileReader(fi.getPath()));
+                int ascci;
+                String s = "";
+                while ((ascci = br.read()) != -1) {
+                    char car = (char) ascci;
+                    s += car;
+
+                }
+                open.getTxtAEditor().setText(s);
+                if (br != null) {
+                    br.close();
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FrmEditor.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(FrmEditor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+    }//GEN-LAST:event_mniOpenActionPerformed
+
+    private void mniSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSaveActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        PnlTextEditor save = (PnlTextEditor) tbpContent.getSelectedComponent();
+        chooser.setDialogTitle("Save a File");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+        chooser.setFileFilter(filter);
+        int selec = chooser.showSaveDialog(chooser);
+        
+
+        if (selec == JFileChooser.APPROVE_OPTION) {
+
+            File fi = chooser.getSelectedFile();
+            try {
+                FileWriter fw = new FileWriter(fi.getPath());
+                fw.write(save.getTxtAEditor().getText());
+                fw.flush();
+                fw.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+
+        }
+
+    }//GEN-LAST:event_mniSaveActionPerformed
+
+    private void mniFontFormatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniFontFormatActionPerformed
+        PnlTextEditor font = (PnlTextEditor) tbpContent.getSelectedComponent();
+        FontChooser fc = new FontChooser();
+        JOptionPane.showMessageDialog(null, fc, "Please Choose Font", JOptionPane.PLAIN_MESSAGE);
+        font.getTxtAEditor().setFont(fc.getSelectedFont());
+        
+    }//GEN-LAST:event_mniFontFormatActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,7 +256,11 @@ public class FrmEditor extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenuItem mniExit;
+    private javax.swing.JMenuItem mniFontFormat;
     private javax.swing.JMenuItem mniNew;
+    private javax.swing.JMenuItem mniOpen;
+    private javax.swing.JMenuItem mniSave;
     private javax.swing.JTabbedPane tbpContent;
     // End of variables declaration//GEN-END:variables
 }
