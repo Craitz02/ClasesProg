@@ -287,6 +287,11 @@ public class PnlVehicleRegister extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(1, 2, 1, 24);
         jPanel2.add(jLabel13, gridBagConstraints);
 
+        txtStockNumber.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtStockNumberFocusLost(evt);
+            }
+        });
         txtStockNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtStockNumberActionPerformed(evt);
@@ -435,6 +440,12 @@ public class PnlVehicleRegister extends javax.swing.JPanel {
     private void txtStockNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockNumberActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStockNumberActionPerformed
+
+    private void txtStockNumberFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtStockNumberFocusLost
+        if(txtStockNumber.getText().isEmpty()){
+            txtStockNumber.setFocusable(true);
+        }
+    }//GEN-LAST:event_txtStockNumberFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

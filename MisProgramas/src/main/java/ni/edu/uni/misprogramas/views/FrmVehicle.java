@@ -5,12 +5,21 @@
  */
 package ni.edu.uni.misprogramas.views;
 
+import java.awt.BorderLayout;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComponent;
+import ni.edu.uni.misprogramas.controllers.PnlVehicleRegisterController;
+import ni.edu.uni.misprogramas.views.panels.PnlVehicleRegister;
+
 /**
  *
  * @author Rodrigo
  */
 public class FrmVehicle extends javax.swing.JFrame {
-
+    PnlVehicleRegister pnlVehicleRegister;
+    PnlVehicleRegisterController pnlVehicleRegisterController;
     /**
      * Creates new form FrmVehicle
      */
@@ -27,47 +36,71 @@ public class FrmVehicle extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlLeftButtons = new javax.swing.JPanel();
-        btnRegister = new javax.swing.JButton();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jPanel1 = new javax.swing.JPanel();
+        btnNew = new javax.swing.JButton();
+        btnView = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        pnlBottom = new javax.swing.JPanel();
         pnlContent = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        pnlLeftButtons.setBackground(new java.awt.Color(204, 204, 204));
-        pnlLeftButtons.setLayout(new java.awt.GridLayout(1, 0));
+        jSplitPane1.setDividerLocation(120);
+        jSplitPane1.setDividerSize(5);
 
-        btnRegister.setText("Register");
-        btnRegister.addActionListener(new java.awt.event.ActionListener() {
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setLayout(new java.awt.GridLayout(5, 0));
+
+        btnNew.setText("New");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegisterActionPerformed(evt);
+                btnNewActionPerformed(evt);
             }
         });
-        pnlLeftButtons.add(btnRegister);
+        jPanel1.add(btnNew);
 
-        getContentPane().add(pnlLeftButtons, java.awt.BorderLayout.LINE_START);
+        btnView.setText("View");
+        jPanel1.add(btnView);
+
+        jSplitPane1.setLeftComponent(jPanel1);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        pnlBottom.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.add(pnlBottom, java.awt.BorderLayout.PAGE_START);
 
         pnlContent.setBackground(new java.awt.Color(255, 255, 255));
+        pnlContent.setLayout(new java.awt.BorderLayout());
+        jPanel2.add(pnlContent, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout pnlContentLayout = new javax.swing.GroupLayout(pnlContent);
-        pnlContent.setLayout(pnlContentLayout);
-        pnlContentLayout.setHorizontalGroup(
-            pnlContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 574, Short.MAX_VALUE)
-        );
-        pnlContentLayout.setVerticalGroup(
-            pnlContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 424, Short.MAX_VALUE)
-        );
+        jSplitPane1.setRightComponent(jPanel2);
 
-        getContentPane().add(pnlContent, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRegisterActionPerformed
-
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        try {
+            if (pnlVehicleRegister == null) {
+            pnlVehicleRegister = new PnlVehicleRegister();
+            pnlVehicleRegisterController = new PnlVehicleRegisterController(pnlVehicleRegister);
+            
+            
+        }
+        } catch (FileNotFoundException e) {
+        }
+        addComponent(pnlVehicleRegister);
+            
+    }//GEN-LAST:event_btnNewActionPerformed
+    private void addComponent(JComponent component){
+        pnlContent.removeAll();
+        pnlContent.add(component, BorderLayout.CENTER);
+        pnlContent.repaint();
+        this.validate();
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -105,8 +138,12 @@ public class FrmVehicle extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnRegister;
+    private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnView;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlContent;
-    private javax.swing.JPanel pnlLeftButtons;
     // End of variables declaration//GEN-END:variables
 }
