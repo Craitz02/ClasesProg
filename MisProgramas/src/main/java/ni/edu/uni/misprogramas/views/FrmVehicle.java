@@ -7,19 +7,23 @@ package ni.edu.uni.misprogramas.views;
 
 import java.awt.BorderLayout;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComponent;
-import ni.edu.uni.misprogramas.controllers.PnlVehicleRegisterController;
-import ni.edu.uni.misprogramas.views.panels.PnlVehicleRegister;
+import ni.edu.uni.misprogramas.controllers.PnlNewVehicleController;
+import ni.edu.uni.misprogramas.controllers.PnlViewVehicleController;
+import ni.edu.uni.misprogramas.views.panels.PnlNewVehicle;
+import ni.edu.uni.misprogramas.views.panels.PnlViewVehicle;
 
 /**
  *
  * @author Rodrigo
  */
 public class FrmVehicle extends javax.swing.JFrame {
-    PnlVehicleRegister pnlVehicleRegister;
-    PnlVehicleRegisterController pnlVehicleRegisterController;
+
+    private PnlNewVehicle pnlNewVehicle;
+    private PnlViewVehicle pnlViewVehicle;
+    private PnlNewVehicleController pnlNewVehicleController;
+    private PnlViewVehicleController pnlViewVehicleController;
+
     /**
      * Creates new form FrmVehicle
      */
@@ -45,6 +49,7 @@ public class FrmVehicle extends javax.swing.JFrame {
         pnlContent = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(520, 500));
 
         jSplitPane1.setDividerLocation(120);
         jSplitPane1.setDividerSize(5);
@@ -61,6 +66,11 @@ public class FrmVehicle extends javax.swing.JFrame {
         jPanel1.add(btnNew);
 
         btnView.setText("View");
+        btnView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnView);
 
         jSplitPane1.setLeftComponent(jPanel1);
@@ -83,24 +93,35 @@ public class FrmVehicle extends javax.swing.JFrame {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         try {
-            if (pnlVehicleRegister == null) {
-            pnlVehicleRegister = new PnlVehicleRegister();
-            pnlVehicleRegisterController = new PnlVehicleRegisterController(pnlVehicleRegister);
-            
-            
+            if (pnlNewVehicle == null) {
+                pnlNewVehicle = new PnlNewVehicle();
+                pnlNewVehicleController = new PnlNewVehicleController(pnlNewVehicle);
+
+            }
+        } catch (FileNotFoundException e) {
+        }
+        addComponent(pnlNewVehicle);
+
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
+        try {
+            if (pnlViewVehicle == null) {
+            pnlViewVehicle = new PnlViewVehicle();
+            pnlViewVehicleController = new PnlViewVehicleController(pnlViewVehicle);
         }
         } catch (FileNotFoundException e) {
         }
-        addComponent(pnlVehicleRegister);
-            
-    }//GEN-LAST:event_btnNewActionPerformed
-    private void addComponent(JComponent component){
+        addComponent(pnlViewVehicle);
+    }//GEN-LAST:event_btnViewActionPerformed
+    private void addComponent(JComponent component) {
         pnlContent.removeAll();
         pnlContent.add(component, BorderLayout.CENTER);
         pnlContent.repaint();
         this.validate();
-        
+
     }
+
     /**
      * @param args the command line arguments
      */

@@ -28,15 +28,15 @@ import javax.swing.JOptionPane;
 import ni.edu.uni.misprogramas.backend.dao.implementation.JsonVehicleDaoImpl;
 import ni.edu.uni.misprogramas.backend.pojo.Vehicle;
 import ni.edu.uni.misprogramas.backend.pojo.vehicleSubModel;
-import ni.edu.uni.misprogramas.views.panels.PnlVehicleRegister;
+import ni.edu.uni.misprogramas.views.panels.PnlNewVehicle;
 
 /**
  *
  * @author Rodrigo
  */
-public class PnlVehicleRegisterController {
-    
-    private PnlVehicleRegister pnlVeRegis;
+public class PnlNewVehicleController {
+
+    private PnlNewVehicle pnlNewVehicle;
     private JsonVehicleDaoImpl jvdao;
     private List<vehicleSubModel> vSubModel;
     private Gson gson;
@@ -45,142 +45,110 @@ public class PnlVehicleRegisterController {
     private DefaultComboBoxModel cmbModelEColor;
     private DefaultComboBoxModel cmbModelIColor;
     private DefaultComboBoxModel cmbModelStatus;
-    private String status[] = new String[]{"Active","Maintainance","Not avaliable"};
+    private String status[] = new String[]{"Active", "Maintainance", "Not avaliable"};
     private JFileChooser fileChooser;
-    
-    
-    public PnlVehicleRegisterController(PnlVehicleRegister pnlVeRegis) throws FileNotFoundException {
-        this.pnlVeRegis = pnlVeRegis;
+
+    public PnlNewVehicleController(PnlNewVehicle pnlNewVehicle) throws FileNotFoundException {
+        this.pnlNewVehicle = pnlNewVehicle;
         initComponent();
     }
-    
+
     private void initComponent() throws FileNotFoundException {
         jvdao = new JsonVehicleDaoImpl();
         gson = new Gson();
-        
+
         JsonReader jreader = new JsonReader(
-               new BufferedReader(new InputStreamReader(
-                       getClass().getResourceAsStream("/jsons/vehicleData.json")))
+                new BufferedReader(new InputStreamReader(
+                        getClass().getResourceAsStream("/json/vehicleData_1.json")))
         );
-        
+
         Type listType = new TypeToken<ArrayList<vehicleSubModel>>(){}.getType();
         vSubModel = gson.fromJson(jreader, listType);
-        
+
         List<String> makes = vSubModel.stream().map(x -> x.getMake()).collect(Collectors.toList());
         List<String> models = vSubModel.stream().map(x -> x.getModel()).collect(Collectors.toList());
         List<String> colors = vSubModel.stream().map(x -> x.getColor()).collect(Collectors.toList());
-        
+
         cmbModelMake = new DefaultComboBoxModel(makes.toArray());
         cmbModelModel = new DefaultComboBoxModel(models.toArray());
         cmbModelEColor = new DefaultComboBoxModel(colors.toArray());
         cmbModelIColor = new DefaultComboBoxModel(colors.toArray());
         cmbModelStatus = new DefaultComboBoxModel(status);
-        
-        pnlVeRegis.getCmbMake().setModel(cmbModelMake);
-        pnlVeRegis.getCmbModel().setModel(cmbModelModel);
-        pnlVeRegis.getCmbExternalColor().setModel(cmbModelEColor);
-        pnlVeRegis.getCmbInternalColor().setModel(cmbModelIColor);
-        pnlVeRegis.getCmbStatus().setModel(cmbModelStatus);
-        
-        pnlVeRegis.getBtnSave().addActionListener((actionEvent)-> {
+
+        pnlNewVehicle.getCmbMake().setModel(cmbModelMake);
+        pnlNewVehicle.getCmbModel().setModel(cmbModelModel);
+        pnlNewVehicle.getCmbExternalColor().setModel(cmbModelEColor);
+        pnlNewVehicle.getCmbInternalColor().setModel(cmbModelIColor);
+        pnlNewVehicle.getCmbStatus().setModel(cmbModelStatus);
+
+        pnlNewVehicle.getBtnSave().addActionListener((actionEvent) -> {
             btnSaveActionListener(actionEvent);
         });
-        
-        pnlVeRegis.getBtnBrowse().addActionListener(((e)->{
-            
+
+        pnlNewVehicle.getBtnBrowse().addActionListener(((e) -> {
+            btnBrowseActionListener(e);
         }));
     }
 
-    private void btnSaveActionListener(ActionEvent e){
+    private void btnSaveActionListener(ActionEvent e) {
         int stock, year;
-        String make,model,style,vin,eColor,iColor,miles,engine,image,status;
+        String make, model, style, vin, eColor, iColor, miles, engine, image, status;
         float price;
         Vehicle.Transmission transmission;
-        
-        
-        stock = Integer.parseInt(pnlVeRegis.getTxtStockNumber().getText());
-        year = Integer.parseInt(pnlVeRegis.getSpnYear().getModel().getValue().toString());
-        make = pnlVeRegis.getCmbMake().getSelectedItem().toString();
-        model = pnlVeRegis.getCmbModel().getSelectedItem().toString();
-        style = pnlVeRegis.getTxtStyle().getText();
-        vin = pnlVeRegis.getFtxtVin().getText();
-        eColor = pnlVeRegis.getCmbExternalColor().getSelectedItem().toString();
-        iColor = pnlVeRegis.getCmbInternalColor().getSelectedItem().toString();
-        miles = pnlVeRegis.getSpnMiles().getModel().getValue().toString();
-        price = Float.parseFloat(pnlVeRegis.getSpnPrice().getModel().getValue().toString());
-        transmission = pnlVeRegis.getRbtnAuto().isSelected() ?
-                Vehicle.Transmission.AUTOMATIC : Vehicle.Transmission.MANUAL;
-        engine = pnlVeRegis.getTxtEngine().getText();
-        image = pnlVeRegis.getTxtImage().getText();
-        status = pnlVeRegis.getCmbStatus().getSelectedItem().toString();
-        
-        
-        Vehicle v = new Vehicle(stock, year, make, model, style, vin, iColor, iColor, miles, price, transmission, engine, image, status);
+
+        stock = Integer.parseInt(pnlNewVehicle.getTxtStockNumber().getText());
+        year = Integer.parseInt(pnlNewVehicle.getSpnYear().getModel().getValue().toString());
+        make = pnlNewVehicle.getCmbMake().getSelectedItem().toString();
+        model = pnlNewVehicle.getCmbModel().getSelectedItem().toString();
+        style = pnlNewVehicle.getTxtStyle().getText();
+        vin = pnlNewVehicle.getFtxtVin().getText();
+        eColor = pnlNewVehicle.getCmbExternalColor().getSelectedItem().toString();
+        iColor = pnlNewVehicle.getCmbInternalColor().getSelectedItem().toString();
+        miles = pnlNewVehicle.getSpnMiles().getModel().getValue().toString();
+        price = Float.parseFloat(pnlNewVehicle.getSpnPrice().getModel().getValue().toString());
+        transmission = pnlNewVehicle.getRbtnAuto().isSelected()
+                ? Vehicle.Transmission.AUTOMATIC : Vehicle.Transmission.MANUAL;
+        engine = pnlNewVehicle.getTxtEngine().getText();
+        image = pnlNewVehicle.getTxtImage().getText();
+        status = pnlNewVehicle.getCmbStatus().getSelectedItem().toString();
+
+        Vehicle v = new Vehicle(stock, year, make, model, style, vin, eColor, iColor, miles, price, transmission, engine, image, status);
         try {
             vehicleValidation(v);
             jvdao.create(v);
-            JOptionPane.showMessageDialog(null, "Vehicle save sucessfully.","Saved message",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Vehicle save sucessfully.", "Saved message", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException ex) {
-            Logger.getLogger(PnlVehicleRegisterController.class.getName()).log(Level.SEVERE, null, ex);
-        
-    }   catch (Exception ex) {
-            Logger.getLogger(PnlVehicleRegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PnlNewVehicleController.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(),"Error Message", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(PnlNewVehicleController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    private void btnBrowseActionListener(ActionEvent e){
+    }    
+    
+
+    private void btnBrowseActionListener(ActionEvent e) {
         fileChooser = new JFileChooser();
-        
+
         int option = fileChooser.showOpenDialog(null);
-        
-        if(option == JFileChooser.CANCEL_OPTION){
+
+        if (option == JFileChooser.CANCEL_OPTION) {
             return;
         }
-        
+
         File imageFile = fileChooser.getSelectedFile();
-        pnlVeRegis.getTxtImage().setText(imageFile.getPath());
+        pnlNewVehicle.getTxtImage().setText(imageFile.getPath());
     }
-    
-    private void vehicleValidation(Vehicle v) throws Exception{
-        if(v.getStockNumber()<=0){
+
+    private void vehicleValidation(Vehicle v) throws Exception {
+        if (v.getStockNumber() <= 0) {
             throw new Exception("StockNumber can not be less or equal to zero.");
         }
-        if(v.getVin().isEmpty()||v.getVin().isBlank()){
+        if (v.getVin().isEmpty() || v.getVin().isBlank()) {
             throw new Exception("Vin number can not be empty or blank.");
         }
-        if(v.getEngine().isEmpty()){
-            throw new Exception("Engine can not be empty.");
+        if (v.getEngine().isEmpty()) {
+            throw new Exception("Engine can not be empty or blank.");
         }
     }
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//        if (e.getActionCommand().equalsIgnoreCase("OK")) {
-//            if (pnlVeRegis.getTxtStockNumber().getText().isEmpty() || pnlVeRegis.getTxtYear().getText().isEmpty() || pnlVeRegis.getFtxtVin().getText().isEmpty()) {
-//                JOptionPane.showMessageDialog(null, "Please complete with all information");
-//            } else {
-//                create(getVehicle());
-//            }
-//
-//        }
-//    }
-//    private Vehicle getVehicle() {
-//        int stockNumber = Integer.parseInt(pnlVeRegis.getTxtStockNumber().getText());
-//        int year = Integer.parseInt(pnlVeRegis.getTxtYear().getText());
-//        String make;
-//        String model;//30
-//        String style;//30
-//        String vin;//20
-//        String exteriorColor;//30
-//        String interiorColor;//30
-//        String miles;//7
-//        float price;//7
-//        Vehicle.Transmission transmission;//20
-//        String engine;//50
-//        String image;//100
-//        String status;//20
-//        
-//       
-//        
-//        
-//        Vehicle v = new Vehicle(stockNumber, year, make, model, style, vin, exteriorColor, interiorColor, miles, price, transmission, engine, image, status);
-//    }
-    }
+}

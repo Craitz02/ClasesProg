@@ -96,12 +96,15 @@ public class JsonVehicleDaoImpl extends RandomTemplate implements VehicleDao{
             
             long posD = (id - 1)*SIZE;
             getCustomRandom().getRafD().seek(posD);
-            vehicle = gson.fromJson(getCustomRandom().getRafD().readUTF(), Vehicle.class);
+            vehicle = gson.fromJson(getCustomRandom().getRafD().readUTF(),Vehicle.class);
             
             vehicles.add(vehicle);            
         }
         
         return vehicles;
     }
+
+    
+
     
 }
