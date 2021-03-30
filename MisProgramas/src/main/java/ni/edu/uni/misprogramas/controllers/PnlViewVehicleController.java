@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,92 +33,70 @@ public class PnlViewVehicleController {
 
     private final PnlViewVehicle pnlViewVehicle;
     private JsonVehicleDaoImpl jvdao;
-    private DefaultComboBoxModel cmbModelType;
     private DefaultTableModel TableModel;
-    private final String TYPES[] = new String[]{"-", "Make", "Model", "Style", "Year", "VIN"};
     private final String colums[] = new String[]{"Stock Number", "Year", "Make", "Model", "Style", "VIN", "Exterior Color", "Internal Color", "Miles", "Price", "Transmission", "Engine", "Image", "Status"};
+    private List<Vehicle> vehicles = new ArrayList<>();
 
-    public PnlViewVehicleController(PnlViewVehicle pnlViewVehicle) throws FileNotFoundException {
+    public PnlViewVehicleController(PnlViewVehicle pnlViewVehicle) throws FileNotFoundException, IOException {
         this.pnlViewVehicle = pnlViewVehicle;
         initComponent();
+
     }
 
     private void initComponent() throws FileNotFoundException, IOException {
+        TableModel = (DefaultTableModel) pnlViewVehicle.getTblViews().getModel();
         jvdao = new JsonVehicleDaoImpl();
-        if(jvdao.getAll().isEmpty()){
-            return;
-        }
-        
-        String matriz[][]= new String[jvdao.getAll().size()][15];
-        for (int i = 0; i < jvdao.getAll().size(); i++) {
-            
-        }
-        
-        cmbModelType = new DefaultComboBoxModel(TYPES);
-        TableModel = new DefaultTableModel(null,colums);
-//        for (String c : colums) {
-//            TableModel.addColumn(c);
-//        }
-
-        pnlViewVehicle.getCmbType().setModel(cmbModelType);
-        pnlViewVehicle.getTblViews().setModel(TableModel);
-
-        pnlViewVehicle.getTxtBrowse().addKeyListener(new KeyAdapter()
-        {
-            public void KeyR(final KeyEvent e)
-            {
-                TableRowSorter TFilter = new TableRowSorter(pnlViewVehicle.getTblViews().getModel());
-                String s = pnlViewVehicle.getTxtBrowse().getText();
-
-                FilterTabe(pnlViewVehicle.getCmbType().getSelectedIndex(), TFilter);
-            }
-        });
-        pnlViewVehicle.getBtnSearch().addActionListener((e) -> {
-            btnSearchActionListener(e);
-        });
-    }
-    
-    private void FilterTabe(int a, TableRowSorter filter)
-    {
-        filter.setRowFilter(RowFilter.regexFilter(pnlViewVehicle.getTxtBrowse().getText(), a));
-        pnlViewVehicle.getTblViews().setRowSorter(filter);
-    } 
-
-    private void btnSearchActionListener(ActionEvent e) {
-        if (pnlViewVehicle.getCmbType().getSelectedItem().toString().equals("-")) {
-            JOptionPane.showMessageDialog(null, "Please Select a Search Type.", "Error", JOptionPane.INFORMATION_MESSAGE);
-        }
-        if (pnlViewVehicle.getCmbType().getSelectedItem().toString().equals("Make")) {
-            Collection<Vehicle> allvehicles = new ArrayList<>();
-            Collection<Vehicle> vehicles = new ArrayList<>();
-            String make = pnlViewVehicle.getTxtBrowse().getText();
+        pnlViewVehicle.getBtnViewAll().addActionListener((e) -> {
             try {
-                allvehicles = jvdao.getAll();
+                btnViewAllActionListener(e);
             } catch (IOException ex) {
                 Logger.getLogger(PnlViewVehicleController.class.getName()).log(Level.SEVERE, null, ex);
             }
-//            for (Vehicle vehicle : allvehicles) {
-//                if (vehicle.getMake().equalsIgnoreCase(make)) {
-//                    vehicles.add(vehicle);
-//                }
-//            }
-            FillTable(allvehicles);
-        }
+        });
+        pnlViewVehicle.getTxtBrowse().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                TableRowSorter tablefilter = new TableRowSorter(pnlViewVehicle.getTblViews().getModel());
+                String text = pnlViewVehicle.getTxtBrowse().getText();
+                pnlViewVehicle.getTxtBrowse().setText(text);
+                
+                Filtrar(pnlViewVehicle.getCmbType().getSelectedIndex(), tablefilter);
+            }
+        });
     }
 
-    private void FillTable(Collection<Vehicle> vehicles) {
-        DefaultTableModel datos = (DefaultTableModel) pnlViewVehicle.getTblViews().getModel();
+    private void Filtrar(int a, TableRowSorter filter) {
+        filter.setRowFilter(RowFilter.regexFilter(pnlViewVehicle.getTxtBrowse().getText(), a));
+        pnlViewVehicle.getTblViews().setRowSorter(filter);
+    }
+
+    private void btnViewAllActionListener(ActionEvent e) throws IOException {
+        vehicles = (List<Vehicle>) jvdao.getAll();
+        do{
+            TableModel.addRow(new Object[]{});
+        }while(vehicles.size() > pnlViewVehicle.getTblViews().getRowCount());
         
-        for (Vehicle v : vehicles) {
-            Object[] row = {v.getStockNumber(), v.getYear(),
-                v.getMake(), v.getModel(), v.getStyle(), v.getVin(),
-                v.getExteriorColor(), v.getInteriorColor(), v.getMiles(),
-                v.getPrice(), v.getTransmission(), v.getEngine(), v.getImage(), v.getStatus()};
-            
-            datos.addRow(row);
+        getInfo(vehicles);
+        
+        
+    }
+    
+    private void getInfo(List<Vehicle> v){
+        for (int i = 0; i < v.size(); i++) {
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getStockNumber(), i, 0);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getYear(), i, 1);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getMake(), i, 2);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getModel(), i, 3);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getStyle(), i, 4);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getVin(), i, 5);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getExteriorColor(), i, 6);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getInteriorColor(), i, 7);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getMiles(), i, 8);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getPrice(), i, 9);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getTransmission(), i, 10);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getEngine(), i, 11);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getImage(), i, 12);
+            pnlViewVehicle.getTblViews().setValueAt(v.get(i).getStatus(), i, 13);
         }
-        
-        
-//        pnlViewVehicle.getTblViews().setModel(datos);
     }
 }

@@ -37,8 +37,8 @@ public class PnlViewVehicle extends javax.swing.JPanel {
         return txtBrowse;
     }
 
-    public JButton getBtnSearch() {
-        return btnSearch;
+    public JButton getBtnViewAll() {
+        return btnViewAll;
     }
     
     
@@ -56,7 +56,7 @@ public class PnlViewVehicle extends javax.swing.JPanel {
         txtBrowse = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         cmbType = new javax.swing.JComboBox<>();
-        btnSearch = new javax.swing.JButton();
+        btnViewAll = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -94,6 +94,7 @@ public class PnlViewVehicle extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel1.add(jLabel1, gridBagConstraints);
 
+        cmbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Stock Number", "Year", "Make", "Model", "Style", "VIN", "Exterior Color", "Interior Color", "Miles", "Price", "Transmission", "Engine", "Imagen Path", "Status" }));
         cmbType.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 cmbTypeFocusLost(evt);
@@ -107,16 +108,16 @@ public class PnlViewVehicle extends javax.swing.JPanel {
         gridBagConstraints.ipadx = 80;
         jPanel1.add(cmbType, gridBagConstraints);
 
-        btnSearch.setText("Search");
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+        btnViewAll.setText("View All");
+        btnViewAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
+                btnViewAllActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        jPanel1.add(btnSearch, gridBagConstraints);
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
+        jPanel1.add(btnViewAll, gridBagConstraints);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Search Type:");
@@ -132,12 +133,31 @@ public class PnlViewVehicle extends javax.swing.JPanel {
 
         tblViews.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-
+                "Stock", "Year", "Make", "Model", "Style", "VIN", "Esterior Color", "Interior Color", "Miles", "Price", "Transmission", "Engine", "Image", "Status"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, true, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblViews.setName(""); // NOI18N
 
         jScrollPane1.setViewportView(tblViews);
@@ -169,13 +189,13 @@ public class PnlViewVehicle extends javax.swing.JPanel {
 //        cmbType.setBorder(null);
     }//GEN-LAST:event_cmbTypeFocusLost
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+    private void btnViewAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewAllActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnSearchActionPerformed
+    }//GEN-LAST:event_btnViewAllActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnViewAll;
     private javax.swing.JComboBox<String> cmbType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -7,6 +7,9 @@ package ni.edu.uni.misprogramas.views;
 
 import java.awt.BorderLayout;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import ni.edu.uni.misprogramas.controllers.PnlNewVehicleController;
 import ni.edu.uni.misprogramas.controllers.PnlViewVehicleController;
@@ -111,6 +114,8 @@ public class FrmVehicle extends javax.swing.JFrame {
             pnlViewVehicleController = new PnlViewVehicleController(pnlViewVehicle);
         }
         } catch (FileNotFoundException e) {
+        } catch (IOException ex) {
+            Logger.getLogger(FrmVehicle.class.getName()).log(Level.SEVERE, null, ex);
         }
         addComponent(pnlViewVehicle);
     }//GEN-LAST:event_btnViewActionPerformed
