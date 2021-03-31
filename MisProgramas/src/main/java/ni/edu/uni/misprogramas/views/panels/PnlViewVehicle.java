@@ -5,12 +5,11 @@
  */
 package ni.edu.uni.misprogramas.views.panels;
 
-import java.awt.Color;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 
 /**
  *
@@ -79,17 +78,18 @@ public class PnlViewVehicle extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 80;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel1.add(txtBrowse, gridBagConstraints);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Search:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel1.add(jLabel1, gridBagConstraints);
@@ -101,7 +101,7 @@ public class PnlViewVehicle extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -115,14 +115,16 @@ public class PnlViewVehicle extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 1;
         jPanel1.add(btnViewAll, gridBagConstraints);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Search Type:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel1.add(jLabel2, gridBagConstraints);
@@ -147,7 +149,7 @@ public class PnlViewVehicle extends javax.swing.JPanel {
                 java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false
+                true, true, true, true, true, true, true, true, false, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -160,6 +162,7 @@ public class PnlViewVehicle extends javax.swing.JPanel {
         });
         tblViews.setName(""); // NOI18N
 
+        tblViews.setRowHeight(30);
         jScrollPane1.setViewportView(tblViews);
 
         jPanel2.add(jScrollPane1);
@@ -172,12 +175,12 @@ public class PnlViewVehicle extends javax.swing.JPanel {
     }//GEN-LAST:event_txtBrowseActionPerformed
 
     private void txtBrowseFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBrowseFocusLost
-        if (txtBrowse.getText().isEmpty()) {
-            txtBrowse.requestFocus();
-            txtBrowse.setBorder(new LineBorder(Color.RED, 2));
-            return;
-        }
-        txtBrowse.setBorder(null);
+        //if (txtBrowse.getText().isEmpty()) {
+        //    txtBrowse.requestFocus();
+        //    txtBrowse.setBorder(new LineBorder(Color.RED, 2));
+        //    return;
+        //}
+        //txtBrowse.setBorder(null);
     }//GEN-LAST:event_txtBrowseFocusLost
 
     private void cmbTypeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbTypeFocusLost

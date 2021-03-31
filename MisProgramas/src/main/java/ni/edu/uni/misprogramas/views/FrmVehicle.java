@@ -108,17 +108,18 @@ public class FrmVehicle extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
-        try {
-            if (pnlViewVehicle == null) {
+        if (pnlViewVehicle == null) {
             pnlViewVehicle = new PnlViewVehicle();
-            pnlViewVehicleController = new PnlViewVehicleController(pnlViewVehicle);
-        }
-        } catch (FileNotFoundException e) {
-        } catch (IOException ex) {
-            Logger.getLogger(FrmVehicle.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            try {
+                pnlViewVehicleController = new PnlViewVehicleController(pnlViewVehicle);
+            } catch (IOException ex) {
+                Logger.getLogger(FrmVehicle.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }  
         addComponent(pnlViewVehicle);
     }//GEN-LAST:event_btnViewActionPerformed
+    
+
     private void addComponent(JComponent component) {
         pnlContent.removeAll();
         pnlContent.add(component, BorderLayout.CENTER);

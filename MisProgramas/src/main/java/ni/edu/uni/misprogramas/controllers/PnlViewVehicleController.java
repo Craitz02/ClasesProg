@@ -30,18 +30,20 @@ public class PnlViewVehicleController {
     private final PnlViewVehicle pnlViewVehicle;
     private JsonVehicleDaoImpl jvdao;
     private DefaultTableModel TableModel;
-    private final String colums[] = new String[]{"Stock Number", "Year", "Make", "Model", "Style", "VIN", "Exterior Color", "Internal Color", "Miles", "Price", "Transmission", "Engine", "Image", "Status"};
-    private List<Vehicle> vehicles = new ArrayList<>();
+    //private final String colums[] = new String[]{"Stock Number", "Year", "Make", "Model", "Style", "VIN", "Exterior Color", "Internal Color", "Miles", "Price", "Transmission", "Engine", "Image", "Status"};
+    private List<Vehicle> vehicles = new ArrayList<Vehicle>();
 
-    public PnlViewVehicleController(PnlViewVehicle pnlViewVehicle) throws FileNotFoundException, IOException {
+    public PnlViewVehicleController(PnlViewVehicle pnlViewVehicle) throws IOException {
         this.pnlViewVehicle = pnlViewVehicle;
         initComponent();
 
     }
 
     private void initComponent() throws FileNotFoundException, IOException {
+
         TableModel = (DefaultTableModel) pnlViewVehicle.getTblViews().getModel();
         jvdao = new JsonVehicleDaoImpl();
+
         pnlViewVehicle.getBtnViewAll().addActionListener((e) -> {
             try {
                 btnViewAllActionListener(e);
@@ -50,10 +52,10 @@ public class PnlViewVehicleController {
             }
         });
         pnlViewVehicle.getTxtBrowse().addKeyListener(new KeyAdapter() {
-            @Override
             public void keyReleased(final KeyEvent e) {
                 TableRowSorter tablefilter = new TableRowSorter(pnlViewVehicle.getTblViews().getModel());
-                String text = pnlViewVehicle.getTxtBrowse().getText();
+                String text = (String) pnlViewVehicle.getTxtBrowse().getText();
+
                 pnlViewVehicle.getTxtBrowse().setText(text);
 
                 Filtrar(pnlViewVehicle.getCmbType().getSelectedIndex(), tablefilter);
@@ -69,40 +71,24 @@ public class PnlViewVehicleController {
     private void btnViewAllActionListener(ActionEvent e) throws IOException {
         vehicles = (List<Vehicle>) jvdao.getAll();
         TableModel.setNumRows(vehicles.size());
-        setInfo(vehicles,TableModel);
-        
-        
+        for (int i = 0; i < vehicles.size(); i++) {
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getStockNumber(), i, 0);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getYear(), i, 1);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getMake(), i, 2);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getModel(), i, 3);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getStyle(), i, 4);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getVin(), i, 5);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getExteriorColor(), i, 6);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getInteriorColor(), i, 7);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getMiles(), i, 8);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getPrice(), i, 9);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getTransmission(), i, 10);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getEngine(), i, 11);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getImage(), i, 12);
+            pnlViewVehicle.getTblViews().setValueAt(vehicles.get(i).getStatus(), i, 13);
 
-    }
-
-    private void setInfo(List<Vehicle> v,DefaultTableModel table) {
-        for (Vehicle x : v) {
-            Object[] row={x.getStockNumber(),x.getYear(),x.getMake(),x.getModel(),x.getStyle(),x.getVin(),
-                x.getExteriorColor(),x.getInteriorColor(),x.getMiles(),x.getPrice(),x.getTransmission(),x.getEngine(),
-                x.getImage(),x.getStatus()};
-            
-            table.addRow(row);
         }
-        
-        
-        //for (int i = 0; i < v.size(); i++) {
-        //    TableModel.setValueAt(v.get(i).getStockNumber(), i, 0);
-        //    TableModel.setValueAt(v.get(i).getYear(), i, 1);
-        //    TableModel.setValueAt(v.get(i).getMake(), i, 2);
-        //    TableModel.setValueAt(v.get(i).getModel(), i, 3);
-        //    TableModel.setValueAt(v.get(i).getStyle(), i, 4);
-        //    TableModel.setValueAt(v.get(i).getVin(), i, 5);
-        //    TableModel.setValueAt(v.get(i).getExteriorColor(), i, 6);
-        //    TableModel.setValueAt(v.get(i).getInteriorColor(), i, 7);
-        //    TableModel.setValueAt(v.get(i).getMiles(), i, 8);
-        //    TableModel.setValueAt(v.get(i).getPrice(), i, 9);
-        //    TableModel.setValueAt(v.get(i).getTransmission(), i, 10);
-        //    TableModel.setValueAt(v.get(i).getEngine(), i, 11);
-        //    TableModel.setValueAt(v.get(i).getImage(), i, 12);
-        //    TableModel.setValueAt(v.get(i).getStatus(), i, 13);
-            
-            
-        //}
-        
+        pnlViewVehicle.getBtnViewAll().setText("View All");
+
     }
 }
