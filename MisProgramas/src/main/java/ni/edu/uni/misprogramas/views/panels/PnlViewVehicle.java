@@ -24,9 +24,7 @@ public class PnlViewVehicle extends javax.swing.JPanel {
         initComponents();
     }
 
-    public JComboBox<String> getCmbType() {
-        return cmbType;
-    }
+   
 
     public JTable getTblViews() {
         return tblViews;
@@ -54,9 +52,7 @@ public class PnlViewVehicle extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         txtBrowse = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        cmbType = new javax.swing.JComboBox<>();
         btnViewAll = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblViews = new javax.swing.JTable();
@@ -64,6 +60,7 @@ public class PnlViewVehicle extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(500, 550));
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(309, 100));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -94,20 +91,6 @@ public class PnlViewVehicle extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel1.add(jLabel1, gridBagConstraints);
 
-        cmbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Stock Number", "Year", "Make", "Model", "Style", "VIN", "Exterior Color", "Interior Color", "Miles", "Price", "Transmission", "Engine", "Imagen Path", "Status" }));
-        cmbType.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                cmbTypeFocusLost(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 80;
-        jPanel1.add(cmbType, gridBagConstraints);
-
         btnViewAll.setText("View All");
         btnViewAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,18 +104,11 @@ public class PnlViewVehicle extends javax.swing.JPanel {
         gridBagConstraints.ipadx = 1;
         jPanel1.add(btnViewAll, gridBagConstraints);
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Search Type:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel1.add(jLabel2, gridBagConstraints);
-
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
+        tblViews.setBackground(new java.awt.Color(255, 255, 255));
         tblViews.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -149,7 +125,7 @@ public class PnlViewVehicle extends javax.swing.JPanel {
                 java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, true, true, false, true, true, true, true, true
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -160,12 +136,33 @@ public class PnlViewVehicle extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblViews.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tblViews.setName(""); // NOI18N
 
         tblViews.setRowHeight(30);
         jScrollPane1.setViewportView(tblViews);
+        if (tblViews.getColumnModel().getColumnCount() > 0) {
+            tblViews.getColumnModel().getColumn(0).setHeaderValue("Stock");
+            tblViews.getColumnModel().getColumn(1).setHeaderValue("Year");
+            tblViews.getColumnModel().getColumn(2).setHeaderValue("Make");
+            tblViews.getColumnModel().getColumn(3).setHeaderValue("Model");
+            tblViews.getColumnModel().getColumn(4).setHeaderValue("Style");
+            tblViews.getColumnModel().getColumn(5).setHeaderValue("VIN");
+            tblViews.getColumnModel().getColumn(6).setHeaderValue("Esterior Color");
+            tblViews.getColumnModel().getColumn(7).setHeaderValue("Interior Color");
+            tblViews.getColumnModel().getColumn(8).setHeaderValue("Miles");
+            tblViews.getColumnModel().getColumn(9).setHeaderValue("Price");
+            tblViews.getColumnModel().getColumn(10).setHeaderValue("Transmission");
+            tblViews.getColumnModel().getColumn(11).setHeaderValue("Engine");
+            tblViews.getColumnModel().getColumn(12).setHeaderValue("Image");
+            tblViews.getColumnModel().getColumn(13).setHeaderValue("Status");
+        }
 
-        jPanel2.add(jScrollPane1);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        jPanel2.add(jScrollPane1, gridBagConstraints);
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -183,15 +180,6 @@ public class PnlViewVehicle extends javax.swing.JPanel {
         //txtBrowse.setBorder(null);
     }//GEN-LAST:event_txtBrowseFocusLost
 
-    private void cmbTypeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbTypeFocusLost
-//        if (cmbType.getSelectedIndex()!=0) {
-//            cmbType.requestFocus();
-//            cmbType.setBorder(new LineBorder(Color.RED, 2));
-//            return;
-//        }
-//        cmbType.setBorder(null);
-    }//GEN-LAST:event_cmbTypeFocusLost
-
     private void btnViewAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewAllActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnViewAllActionPerformed
@@ -199,9 +187,7 @@ public class PnlViewVehicle extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnViewAll;
-    private javax.swing.JComboBox<String> cmbType;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

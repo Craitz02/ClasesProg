@@ -170,11 +170,26 @@ public class Vehicle {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "Vehicle{" + "stockNumber=" + stockNumber + ", year=" + year + ", make=" + make + ", model=" + model + ", style=" + style + ", vin=" + vin + ", exteriorColor=" + exteriorColor + ", interiorColor=" + interiorColor + ", miles=" + miles + ", price=" + price + ", transmission=" + transmission + ", engine=" + engine + ", image=" + image + ", status=" + status + '}';
+    public Object[] asArray(){
+        Object[] o = new Object[14];
+        o[0]=stockNumber;
+        o[1]=year;
+        o[2]=make;
+        o[3]=model;
+        o[4]=style;
+        o[5]=vin;
+        o[6]=exteriorColor;
+        o[7]=interiorColor;
+        o[8]=miles;
+        o[9]=price;
+        o[10]=transmission;
+        o[11]=engine;
+        o[12]=image;
+        o[13]=status;
+        
+        return o;
+        
     }
-    
     
     
     
